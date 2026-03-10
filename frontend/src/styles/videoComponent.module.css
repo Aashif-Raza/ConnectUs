@@ -1,0 +1,194 @@
+.meetVideoContainer {
+    position: relative;
+    height: 100vh;
+    background: #FAFAFA;
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+.meetUserVideo {
+    position: absolute;
+    bottom: 100px;
+    right: 20px;
+    height: 200px;
+    width: 320px;
+    border-radius: 4px;
+    object-fit: cover;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #E5E5E5;
+    transition: transform 0.3s ease;
+    background: #000;
+}
+
+.meetUserVideo:hover {
+    transform: scale(1.02);
+}
+
+.buttonContainers {
+    position: absolute;
+    width: auto;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 4px;
+    border: 1px solid #E5E5E5;
+    z-index: 20;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.buttonContainers button {
+    transition: all 0.2s ease;
+    border-radius: 40px;
+}
+
+.buttonContainers button:hover {
+    background: #F5F5F5 !important;
+}
+
+.buttonContainers svg {
+    font-size: 1.8rem;
+    color: #000;
+}
+
+.conferenceView {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    height: calc(100vh - 80px);
+    align-content: center;
+    justify-content: center;
+}
+
+.conferenceView video {
+    width: 100%;
+    height: 100%;
+    max-height: 45vh;
+    border-radius: 4px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: #000;
+    border: 1px solid #E5E5E5;
+    transition: all 0.2s ease;
+}
+
+/* Active speaker highlight */
+.activeSpeaker {
+    border: 2px solid #000 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.chatRoom {
+    position: absolute;
+    height: calc(100vh - 40px);
+    right: 20px;
+    top: 20px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    width: 320px;
+    padding: 24px;
+    border: 1px solid #E5E5E5;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    color: #000;
+}
+
+.chatContainer {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chattingArea {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lobbyContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #FFFFFF;
+    color: #000;
+}
+
+.lobbyContent {
+    background: #FFFFFF;
+    padding: 3rem;
+    border-radius: 8px;
+    box-shadow: none;
+    border: 1px solid #E5E5E5;
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+.lobbyContent h2 {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+}
+
+.videoPreviewContainer {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    margin: 25px auto;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #E5E5E5;
+}
+
+.videoPreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.previewControls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    background: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid #E5E5E5;
+}
+
+.previewControls button {
+    transition: all 0.2s ease;
+    border-radius: 50%;
+}
+
+.previewControls button:hover {
+    background: #F0F0F0 !important;
+}
+
+.previewControls svg {
+    color: #000 !important;
+}
+
+.joinForm {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

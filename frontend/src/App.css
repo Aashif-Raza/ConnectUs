@@ -1,0 +1,116 @@
+:root {
+  --primary: #000;
+  --primary-hover: #333;
+  --bg-dark: #fff;
+  --surface: #fff;
+  --surface-light: #f9f9f9;
+  --text-primary: #000;
+  --text-secondary: #555;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --transition: all 0.2s ease;
+  --border-light: 1px solid #e5e5e5;
+  --border-dark: 1px solid #000;
+}
+
+/* ── Home page (post-login) navbar ────────────────────────── */
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 4rem;
+  background: var(--surface);
+  border-bottom: var(--border-light);
+  color: var(--text-primary);
+}
+
+.navBar h2 {
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  color: #000;
+}
+
+.navBar h2 span {
+  color: #777;
+  font-weight: 400;
+}
+
+.navBar>div:nth-child(2) {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+/* ── Meet Container (post-login home) ─────────────────────── */
+.meetContainer {
+  display: flex;
+  padding: 4rem 6rem;
+  height: calc(100vh - 85px);
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
+}
+
+.leftPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.leftPanel h2 {
+  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #000;
+}
+
+.leftPanel p {
+  line-height: 1.6;
+}
+
+.rightPanel {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rightPanel>img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  filter: grayscale(100%);
+  border: var(--border-light);
+}
+
+/* ── Responsive (post-login pages) ───────────────────────── */
+@media (max-width: 1024px) {
+  .meetContainer {
+    flex-direction: column;
+    padding: 4rem 2rem;
+    text-align: left;
+    gap: 4rem;
+  }
+
+  .leftPanel h2 {
+    font-size: 2.8rem;
+  }
+
+  .navBar {
+    padding: 1.2rem 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .meetContainer {
+    padding: 3rem 1.5rem;
+  }
+}

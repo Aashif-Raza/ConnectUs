@@ -1,0 +1,55 @@
+/* ── NotFound (404) Page ─────────────────────────────────── */
+.nf-root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #fff;
+    color: #000;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    padding: 2rem;
+}
+
+.nf-content {
+    text-align: center;
+    max-width: 480px;
+}
+
+.nf-code {
+    display: block;
+    font-size: clamp(6rem, 15vw, 10rem);
+    font-weight: 900;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    color: #000;
+    margin-bottom: 1rem;
+}
+
+.nf-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.nf-sub {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+}
+
+.nf-link {
+    display: inline-block;
+    color: #000;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: opacity 0.2s ease;
+}
+
+.nf-link:hover {
+    opacity: 0.55;
+}
