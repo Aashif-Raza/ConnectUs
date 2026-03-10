@@ -1,257 +1,283 @@
-# ConnectUS - Video Conferencing Application
+# ConnectUs
 
-A full-stack MERN (MongoDB, Express, React, Node.js) video conferencing application that enables users to create and join video meetings with real-time chat, screen sharing, and meeting history.
+A full-stack video conferencing application built with the MERN stack and WebRTC. Start an instant meeting, invite anyone with a link, and communicate through HD video, audio, and live chat — all in the browser, no downloads required.
+
+---
+
+## Live Preview
+
+> Start the backend and frontend locally using the steps below.
+
+---
 
 ## Features
 
-- **User Authentication**: Secure registration and login system with password hashing
-- **Real-time Video Calling**: Peer-to-peer video conferencing using WebRTC
-- **Meeting Management**: Create, join, and track meetings with unique meeting codes
-- **Live Chat**: Send and receive messages during video calls
-- **Screen Sharing**: Share your screen with other participants
-- **Meeting History**: View and manage your past meetings
-- **Guest Access**: Join meetings without creating an account
-- **Responsive Design**: Beautiful Material-UI interface that works on all devices
+- **Instant Video Rooms** — Create or join a meeting with a single code
+- **WebRTC Peer-to-Peer Video & Audio** — Low-latency, direct browser-to-browser calls
+- **Screen Sharing** — Share your screen with all participants
+- **Live In-Meeting Chat** — Real-time text messaging with Socket.IO
+- **Participants Panel** — See who's in the call at a glance
+- **Join/Leave Notifications** — Snackbar alerts when users enter or exit
+- **Copy Meeting Link** — One-click clipboard copy of the meeting URL
+- **Meeting History** — Authenticated users can view past meetings
+- **Authentication** — Register and login with JWT-secured sessions
+- **Guest Access** — Join any meeting without an account
+- **Black & White Editorial UI** — Clean, professional, fully responsive design
+- **Mobile Responsive** — Hamburger nav, stacked layouts, touch-friendly targets
+
+---
 
 ## Tech Stack
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express** - Web framework for building APIs
-- **Socket.IO** - Real-time bidirectional communication
-- **MongoDB** - NoSQL database for user and meeting data
-- **Bcrypt** - Password hashing and encryption
-- **CORS** - Cross-origin request handling
-
 ### Frontend
-- **React** - UI library
-- **React Router** - Client-side routing
-- **Socket.IO Client** - Real-time communication client
-- **Material-UI (MUI)** - Component library with pre-built UI elements
-- **Axios** - HTTP client for API requests
-- **WebRTC** - Peer-to-peer video/audio communication
+| Technology | Purpose |
+|-----------|---------|
+| React 19 | UI framework |
+| React Router v7 | Client-side routing |
+| Material UI v7 | Component library |
+| Socket.IO Client | Real-time signalling |
+| WebRTC (native) | Peer-to-peer video/audio |
+| Axios | HTTP client |
+| CSS Modules | Scoped component styles |
 
-## Prerequisites
+### Backend
+| Technology | Purpose |
+|-----------|---------|
+| Node.js ≥ 18 | Runtime |
+| Express 5 | HTTP server |
+| Socket.IO | WebRTC signalling & chat relay |
+| MongoDB + Mongoose | Database & ODM |
+| bcrypt | Password hashing |
+| JSON Web Tokens | Auth tokens |
 
-Before you begin, make sure you have installed:
-- Node.js (v14 or higher)
-- npm (comes with Node.js)
-- MongoDB (local or cloud instance)
-- Git
+---
 
 ## Project Structure
 
 ```
 ConnectUS/
-├── backend/                 # Node.js/Express server
+├── frontend/                  # React app
+│   ├── public/
+│   │   ├── index.html
+│   │   └── hero.png
 │   ├── src/
-│   │   ├── app.js          # Main server file
-│   │   ├── models/         # Database schemas
-│   │   ├── controllers/    # Business logic
-│   │   └── routes/         # API endpoints
+│   │   ├── contexts/
+│   │   │   └── AuthContext.jsx      # Auth state & API calls
+│   │   ├── pages/
+│   │   │   ├── Landing.jsx          # Public landing page
+│   │   │   ├── Authentication.jsx   # Login / Register
+│   │   │   ├── Home.jsx             # Dashboard (protected)
+│   │   │   ├── History.jsx          # Meeting history (protected)
+│   │   │   ├── VideoMeet.jsx        # Video call room
+│   │   │   └── NotFound.jsx         # 404 page
+│   │   ├── styles/
+│   │   │   ├── landing.css
+│   │   │   ├── videoComponent.module.css
+│   │   │   └── notfound.css
+│   │   ├── utils/
+│   │   │   └── WithAuth.jsx         # Auth HOC for protected routes
+│   │   ├── environment.js           # Server URL config (reads from .env)
+│   │   ├── App.js                   # Routes
+│   │   └── index.js
+│   ├── .env.example
 │   └── package.json
-├── frontend/               # React application
-│   ├── src/
-│   │   ├── pages/         # Page components
-│   │   ├── contexts/      # React contexts
-│   │   ├── components/    # Reusable components
-│   │   └── App.js         # Main app component
-│   └── package.json
-├── CODE_EXPLANATION.md    # Detailed code documentation
-├── DEPENDENCIES_QUICK_REFERENCE.md
-├── CONNECTION_DIAGRAMS.md
-└── FILE_CONNECTIONS_AND_DATA_FLOW.md
+│
+└── backend/                   # Node/Express API
+    ├── src/
+    │   ├── controllers/
+    │   │   ├── socketManager.js     # Socket.IO + WebRTC signalling
+    │   │   └── user.controller.js   # Auth & history logic
+    │   ├── models/                  # Mongoose schemas
+    │   ├── routes/
+    │   │   └── users.routes.js
+    │   └── app.js                   # Server entry point
+    ├── .env.example
+    └── package.json
 ```
-
-## Installation
-
-### 1. Clone the Repository
-```bash
-git clone <repository-url>
-cd ConnectUS
-```
-
-### 2. Backend Setup
-
-Navigate to the backend directory:
-```bash
-cd backend
-```
-
-Install dependencies:
-```bash
-npm install
-```
-
-Create a `.env` file in the backend directory:
-```
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/connectus
-PORT=8000
-NODE_ENV=development
-```
-
-Start the backend server:
-```bash
-npm start
-```
-
-The backend will run on `http://localhost:8000`
-
-### 3. Frontend Setup
-
-Open a new terminal and navigate to the frontend directory:
-```bash
-cd frontend
-```
-
-Install dependencies:
-```bash
-npm install
-```
-
-Start the React development server:
-```bash
-npm start
-```
-
-The frontend will open on `http://localhost:3000`
-
-## API Endpoints
-
-### Authentication Routes
-- `POST /api/v1/users/register` - Register a new user
-- `POST /api/v1/users/login` - Login user
-- `GET /api/v1/users/get_all_activity` - Get meeting history
-- `POST /api/v1/users/add_to_activity` - Add meeting to history
-
-## Socket Events
-
-### Client → Server
-- `join-call` - Join a meeting room
-- `signal` - Send WebRTC signal data
-- `chat-message` - Send chat message
-- `disconnect` - Leave meeting
-
-### Server → Client
-- `user-joined` - Notify when user joins
-- `user-left` - Notify when user leaves
-- `signal` - Receive WebRTC signal data
-- `chat-message` - Receive chat message
-
-## How to Use
-
-1. **Sign Up / Login**
-   - Visit the landing page and click "Register" or "Login"
-   - Create an account with name, username, and password
-
-2. **Create/Join a Meeting**
-   - Navigate to the home page after login
-   - Enter a meeting code or generate a new one
-   - Click "Join Meeting"
-
-3. **During a Call**
-   - Enable/disable video and audio using the controls
-   - Share your screen using the screen share button
-   - Send messages using the chat interface
-   - Invite others by sharing the meeting code
-
-4. **Meeting History**
-   - Go to "History" page to view your past meetings
-   - All meetings are automatically saved
-
-## Configuration
-
-### Environment Variables
-
-**Backend (.env)**
-```
-MONGO_URI=<MongoDB connection string>
-PORT=8000
-NODE_ENV=development
-```
-
-**Frontend (environment.js)**
-```
-const server = "http://localhost:8000"
-```
-
-## Running in Production
-
-### Backend
-```bash
-cd backend
-npm install
-npm run build
-npm start
-```
-
-### Frontend
-```bash
-cd frontend
-npm install
-npm run build
-npm start
-```
-
-## Documentation
-
-For detailed information about the project, please refer to:
-- [CODE_EXPLANATION.md](./CODE_EXPLANATION.md) - Comprehensive code documentation
-- [DEPENDENCIES_QUICK_REFERENCE.md](./DEPENDENCIES_QUICK_REFERENCE.md) - Package dependencies explained
-- [CONNECTION_DIAGRAMS.md](./CONNECTION_DIAGRAMS.md) - Architecture and data flow diagrams
-- [FILE_CONNECTIONS_AND_DATA_FLOW.md](./FILE_CONNECTIONS_AND_DATA_FLOW.md) - File relationships and data flow
-
-## WebRTC & Socket.IO
-
-This application uses:
-- **WebRTC** for peer-to-peer video/audio communication
-- **Socket.IO** for real-time signaling and chat communication
-
-## Browser Support
-
-- Chrome/Chromium (latest)
-- Firefox (latest)
-- Edge (latest)
-- Safari (latest with WebRTC support)
-
-## Troubleshooting
-
-### Backend won't start
-- Ensure MongoDB is running
-- Check that port 8000 is not in use
-- Verify MONGO_URI in .env file
-
-### Frontend connection issues
-- Ensure backend is running on port 8000
-- Check browser console for CORS errors
-- Verify firewall settings allow WebSocket connections
-
-### Video/Audio not working
-- Check browser permissions for camera/microphone
-- Ensure your device has camera and microphone
-- Try a different browser
-
-### Socket connection fails
-- Verify backend server is running
-- Check network connectivity
-- Ensure firewall allows WebSocket connections
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
-
-## License
-
-This project is licensed under the MIT License - see LICENSE file for details.
-
-## Author
-
-Created as a major project for MERN Stack development.
-
-## Support
-
-For issues or questions, please open an issue on the repository or contact the development team.
 
 ---
 
-**Happy Conferencing! 🎥**
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** ≥ 18.0.0
+- **npm** ≥ 9
+- A **MongoDB** database (local or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas))
+
+---
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Aashif-Raza/ConnectUs.git
+cd ConnectUs
+```
+
+---
+
+### 2. Set up the Backend
+
+```bash
+cd backend
+```
+
+Create your environment file:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+
+```env
+PORT=8000
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/<dbname>
+```
+
+Install dependencies and start:
+
+```bash
+npm install
+npm run dev     # development (nodemon)
+# or
+npm start       # production
+```
+
+The backend will be available at `http://localhost:8000`.
+
+---
+
+### 3. Set up the Frontend
+
+```bash
+cd frontend
+```
+
+Create your environment file:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+
+```env
+REACT_APP_SERVER_URL=http://localhost:8000
+```
+
+Install dependencies and start:
+
+```bash
+npm install
+npm start
+```
+
+The app will open at `http://localhost:3000`.
+
+---
+
+## Environment Variables
+
+### Frontend (`frontend/.env`)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `REACT_APP_SERVER_URL` | Full URL of the backend server | `http://localhost:8000` |
+
+### Backend (`backend/.env`)
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `MONGO_URI` | MongoDB connection string | ✅ Yes |
+| `PORT` | Port the server listens on | Default: `8000` |
+
+> ⚠️ Never commit `.env` files with real credentials. They are in `.gitignore`.
+
+---
+
+## How It Works
+
+### Authentication Flow
+
+1. User registers or logs in via `/auth`
+2. Backend hashes password with **bcrypt** and issues a **JWT token**
+3. Token stored in `localStorage` and sent with every authenticated API request
+4. `withAuth` HOC redirects unauthenticated users to `/auth`
+
+### Video Call Flow
+
+```
+User A opens /:meetingCode
+    → Enters lobby (camera/mic preview)
+    → Types display name → clicks "Join Meeting"
+    → Frontend connects to Socket.IO server
+    → Emits "join-call" with the meeting URL and username
+
+Socket.IO server
+    → Adds socket to the room
+    → Broadcasts "user-joined" to all existing participants
+
+All participants
+    → Create RTCPeerConnection for each new socket
+    → Exchange SDP offer/answer via "signal" events (relayed by server)
+    → Exchange ICE candidates via "signal" events
+    → Peer-to-peer video/audio stream established ← no server in the media path
+```
+
+### Chat
+
+Chat messages are sent to the Socket.IO server which **broadcasts** them to everyone in the same room. Message history is kept in memory for the duration of the meeting.
+
+---
+
+## API Endpoints
+
+Base URL: `/api/v1/users`
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| `POST` | `/register` | No | Create a new account |
+| `POST` | `/login` | No | Login, returns JWT token |
+| `POST` | `/add_to_activity` | Token | Save a meeting to history |
+| `GET` | `/get_all_activity` | Token | Fetch meeting history |
+
+---
+
+## Scripts
+
+### Frontend
+
+```bash
+npm start        # Start development server (port 3000)
+npm run build    # Create optimised production build
+npm test         # Run test suite
+```
+
+### Backend
+
+```bash
+npm run dev      # Start with nodemon (auto-restart on changes)
+npm start        # Start without nodemon
+```
+
+---
+
+## Deployment Notes
+
+- **Frontend**: Deploy the `frontend/build` output to any static host (Vercel, Netlify, GitHub Pages)
+- **Backend**: Deploy to any Node.js host (Render, Railway, Heroku, DigitalOcean). Set `MONGO_URI` and `PORT` as environment variables on the platform.
+- **CORS**: The backend currently allows all origins (`*`). For production, restrict `origin` in `socketManager.js` to your frontend domain.
+
+---
+
+## Author
+
+**Md Aashif Raza**  
+[GitHub](https://github.com/Aashif-Raza)
+
+---
+
+## License
+
+MIT

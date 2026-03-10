@@ -139,7 +139,7 @@ const register = async (req, res) => {
     try {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(httpStatus.FOUND).json({ message: "User already exists" });
+            return res.status(httpStatus.CONFLICT).json({ message: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -166,6 +166,9 @@ const getUserHistory = async (req, res) => {
 
     try {
         const user = await User.findOne({ token: token });
+        if (!user) {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid token" });
+        }
         const meetings = await Meeting.find({ user_id: user.username })
         res.json(meetings)
     } catch (e) {
@@ -178,6 +181,9 @@ const addToHistory = async (req, res) => {
 
     try {
         const user = await User.findOne({ token: token });
+        if (!user) {
+            return res.status(httpStatus.UNAUTHORIZED).json({ message: "Invalid token" });
+        }
 
         const newMeeting = new Meeting({
             user_id: user.username,

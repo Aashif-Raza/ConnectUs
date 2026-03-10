@@ -1,53 +1,8 @@
-// import express from "express";
-// import { createServer } from "node:http";
-
-// import { Server } from "socket.io";
-
-// import mongoose from "mongoose";
-// import { connectToSocket } from "./controllers/socketManager.js";
-
-// import cors from "cors";
-// import userRoutes from "./routes/users.routes.js"
-
-// const app = express();
-// const server = createServer(app);
-// const io = connectToSocket(server);
-
-// app.set("port", process.env.PORT || 8000);
-// app.use(cors());
-// app.use(express.json({ limit: "40kb" }));
-// app.use(express.urlencoded({ limit: "40kb", extended: true }));
-
-// app.use("/api/v1/users", userRoutes);
-
-
-// const start = async () => {
-//   app.set("mongo_user");
-//   const connectionDB = await mongoose.connect(
-//     "mongodb+srv://aasifreja63442_db_user:2443663442@cluster0.f2bmwv9.mongodb.net/?appName=Cluster0"
-//   );
-
-//   console.log(`MONGO Connected DB HOST: ${connectionDB.connection.host}`);
-//   server.listen(app.get("port"), () => {
-//     console.log("LISTENING ON PORT 8000");
-//   });
-// };
-
-// start();
-
-
-
-
-
-
 import express from "express";
 import { createServer } from "node:http";
-
 import { Server } from "socket.io";
-
 import mongoose from "mongoose";
 import { connectToSocket } from "./controllers/socketManager.js";
-
 import cors from "cors";
 import userRoutes from "./routes/users.routes.js";
 
@@ -55,8 +10,7 @@ const app = express();
 const server = createServer(app);
 const io = connectToSocket(server);
 
-
-app.set("port", (process.env.PORT || 8000))
+app.set("port", process.env.PORT || 8000);
 app.use(cors());
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
@@ -64,14 +18,20 @@ app.use(express.urlencoded({ limit: "40kb", extended: true }));
 app.use("/api/v1/users", userRoutes);
 
 const start = async () => {
-    app.set("mongo_user")
-    const connectionDb = await mongoose.connect("mongodb+srv://imdigitalashish:imdigitalashish@cluster0.cujabk4.mongodb.net/")
+  const mongoUri = process.env.MONGO_URI;
+  if (!mongoUri) {
+    throw new Error("MONGO_URI environment variable is not set.");
+  }
 
-    console.log(`MONGO Connected DB HOst: ${connectionDb.connection.host}`)
-    server.listen(app.get("port"), () => {
-        console.log("LISTENIN ON PORT 8000")
-    });
+  const connectionDb = await mongoose.connect(mongoUri);
+  console.log(`MongoDB connected: ${connectionDb.connection.host}`);
 
-}
+  server.listen(app.get("port"), () => {
+    console.log(`Server listening on port ${app.get("port")}`);
+  });
+};
 
-start();
+start().catch((err) => {
+  console.error("Server startup error:", err.message);
+  process.exit(1);
+});
