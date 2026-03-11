@@ -35,7 +35,7 @@ export default function VideoMeetComponent() {
     let [video, setVideo] = useState([]);
     let [audio, setAudio] = useState();
     let [screen, setScreen] = useState();
-    let [showModal, setModal] = useState(true);
+    let [showModal, setModal] = useState(false); // Fix: Start with chat closed
     let [screenAvailable, setScreenAvailable] = useState();
     let [messages, setMessages] = useState([]);
     let [message, setMessage] = useState("");
@@ -219,7 +219,9 @@ export default function VideoMeetComponent() {
         socketRef.current.on('signal', gotMessageFromServer);
 
         socketRef.current.on('connect', () => {
-            socketRef.current.emit('join-call', window.location.href, username);
+            // Fix: Use only the meeting ID/code from the path instead of full URL
+            const meetingId = window.location.pathname.split("/").pop();
+            socketRef.current.emit('join-call', meetingId, username);
             socketIdRef.current = socketRef.current.id;
             socketRef.current.on('chat-message', addMessage);
 
@@ -240,6 +242,8 @@ export default function VideoMeetComponent() {
                 }
 
                 clients.forEach((socketListId) => {
+                    if (connections[socketListId]) return; // Don't re-init existing peers
+
                     connections[socketListId] = new RTCPeerConnection(peerConfigConnections);
 
                     connections[socketListId].onicecandidate = function (event) {
