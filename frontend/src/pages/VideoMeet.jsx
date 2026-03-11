@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import io from "socket.io-client";
+import Draggable from 'react-draggable';
 import { Badge, IconButton, TextField, Snackbar } from '@mui/material';
 import { Button } from '@mui/material';
 import VideocamIcon from '@mui/icons-material/Videocam';
@@ -29,6 +30,7 @@ export default function VideoMeetComponent() {
     var socketRef = useRef();
     let socketIdRef = useRef();
     let localVideoref = useRef();
+    let dragNodeRef = useRef(null); // Fix for react-draggable findDOMNode error
 
     let [videoAvailable, setVideoAvailable] = useState(true);
     let [audioAvailable, setAudioAvailable] = useState(true);
@@ -543,9 +545,20 @@ export default function VideoMeetComponent() {
                         </Badge>
                     </div>
 
-                    <video className={styles.meetUserVideo} ref={localVideoref} autoPlay muted aria-label="Your video preview" />
+                    <Draggable nodeRef={dragNodeRef} bounds="parent">
+                        <video
+                            ref={(el) => {
+                                localVideoref.current = el;
+                                dragNodeRef.current = el;
+                            }}
+                            className={styles.meetUserVideo}
+                            autoPlay
+                            muted
+                            aria-label="Your video preview"
+                        />
+                    </Draggable>
 
-                    <div className={styles.conferenceView}>
+                    <div className={styles.conferenceView} data-participants={videos.length}>
                         {videos.map((video) => (
                             <div key={video.socketId}>
                                 <video
